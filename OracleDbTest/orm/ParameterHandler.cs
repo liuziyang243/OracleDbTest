@@ -29,7 +29,16 @@ namespace OracleDbTest.orm
             foreach (var field in fieldMap)
             {
                 var propertyValue = EntityHelper.GetObjectPropertyValue(obj, field.Key);
-                result.Add(":" + field.Value, propertyValue);
+                // oracle没有bool类型的值，默认采用number(1)存储，1代表true，0代表false
+                if (propertyValue is bool)
+                {
+                    bool value = (bool) propertyValue;
+                    result.Add(":" + field.Value, value ? 1 : 0);
+                }
+                else
+                {
+                    result.Add(":" + field.Value, propertyValue);
+                }
             }
 
             return result;
@@ -72,7 +81,16 @@ namespace OracleDbTest.orm
                 var placeholderArray = placeholders.ToArray();
                 for (var i = 0; i < parmObjects.Length; i++)
                 {
-                    result.Add(placeholderArray[i], parmObjects[i]);
+                    // oracle没有bool类型的值，默认采用number(1)存储，1代表true，0代表false
+                    if (parmObjects[i] is bool)
+                    {
+                        bool value = (bool) parmObjects[i];
+                        result.Add(placeholderArray[i], value ? 1 : 0);
+                    }
+                    else
+                    {
+                        result.Add(placeholderArray[i], parmObjects[i]);
+                    }
                 }
             }
             else

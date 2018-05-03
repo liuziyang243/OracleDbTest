@@ -14,8 +14,6 @@ namespace OracleDbTest
     {
         static void Main(string[] args)
         {
-            Dictionary<string, int> map = ResultHandler.GetNameIndexMap(typeof(Person));
-
             Console.WriteLine("this is test for oracle db");
             IDataSetAccessor dataSet = OrmEntryFactory.GetDataSetAccessor();
 
@@ -33,8 +31,12 @@ namespace OracleDbTest
                 Id = id,
                 Name = "xiaoming",
                 Sex = "male",
-                Height = 176,
-                Note = "this is a record"
+                Height = 176.1f,
+                Weight = 32.23,
+                Note = "this is a record",
+                Salary = 123.23f,
+                IsMarried = true,
+                FamilyName = 'a'
             };
             bool flag = dataSet.Insert(p);
             Console.WriteLine("Insert person successful?{0}", flag);

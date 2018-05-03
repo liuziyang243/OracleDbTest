@@ -13,7 +13,8 @@ namespace OracleDbTest.entity
         public float Height { set; get; }
         public double Weight { set; get; }
         public char FamilyName { set; get; }
-        public decimal Salary { set; get; }
+        public float Salary { set; get; }
+        public bool IsMarried { set; get; }
 
         public override string ToString()
         {
@@ -25,7 +26,8 @@ namespace OracleDbTest.entity
                 .Append("height:").Append(Height).Append("\t")
                 .Append("weight:").Append(Weight).Append("\t")
                 .Append("familayName:").Append(FamilyName).Append("\t")
-                .Append("salary:").Append(Salary);
+                .Append("salary:").Append(Salary).Append("\t")
+                .Append("isMarried:").Append(IsMarried);
             return builder.ToString();
         }
     }
