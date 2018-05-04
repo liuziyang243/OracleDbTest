@@ -57,5 +57,13 @@ namespace OracleDbTest.orm
             Dictionary<string, object> oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
             return _dataAccessor.update(sql, oracleParams) > 0;
         }
+
+        public long GetCount<T>(string condition, params object[] paramList) where T : class
+        {
+            Type type = typeof(T);
+            string sql = SqlHelper.GenCountSql(type, condition);
+            Dictionary<string, object> oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
+            return _dataAccessor.queryCount(sql, oracleParams);
+        }
     }
 }

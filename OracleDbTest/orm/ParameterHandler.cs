@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using Oracle.ManagedDataAccess.Client;
@@ -22,9 +23,12 @@ namespace OracleDbTest.orm
         // 设置sql语句参数, parms中key为sql语句参数占位符，value为实际的参数值
         public static void SetParameters(OracleCommand cmd, Dictionary<string, object> parms)
         {
-            foreach (var o in parms)
+            if (parms!=null && parms.Any())
             {
-                cmd.Parameters.Add(new OracleParameter(o.Key, o.Value));
+                foreach (var o in parms)
+                {
+                    cmd.Parameters.Add(new OracleParameter(o.Key, o.Value));
+                }
             }
         }
 

@@ -39,7 +39,7 @@ namespace OracleDbTest.orm
 
             builder.Append("SELECT ").Append(columns.ToString(0, columns.Length - 1)).Append(" FROM ")
                 .Append(tableName);
-            if (condition != null)
+            if (!string.IsNullOrEmpty(condition))
             {
                 builder.Append(" WHERE ").Append(condition);
             }
@@ -87,8 +87,11 @@ namespace OracleDbTest.orm
                 columns.Append(entry.Key).Append("=:").Append(entry.Key).Append(",");
             }
 
-            builder.Append("UPDATE ").Append(tableName).Append(" SET ").Append(columns.ToString(0, columns.Length - 1))
-                .Append(" WHERE ").Append(condition);
+            builder.Append("UPDATE ").Append(tableName).Append(" SET ").Append(columns.ToString(0, columns.Length - 1));
+            if (!string.IsNullOrEmpty(condition))
+            {
+                builder.Append(" WHERE ").Append(condition);
+            }
             return builder.ToString();
         }
 
@@ -98,7 +101,11 @@ namespace OracleDbTest.orm
             condition = ConvertCondition(condition);
             var tableName = EntityHelper.GetTableName(type);
             var builder = new StringBuilder();
-            builder.Append("DELETE FROM ").Append(tableName).Append(" WHERE ").Append(condition);
+            builder.Append("DELETE FROM ").Append(tableName);
+            if (!string.IsNullOrEmpty(condition))
+            {
+                builder.Append(" WHERE ").Append(condition);
+            }
             return builder.ToString();
         }
 
@@ -108,7 +115,11 @@ namespace OracleDbTest.orm
             condition = ConvertCondition(condition);
             var tableName = EntityHelper.GetTableName(type);
             var builder = new StringBuilder();
-            builder.Append("DELETE COUNT(*) ").Append(tableName).Append(" WHERE ").Append(condition);
+            builder.Append("DELETE COUNT(*) ").Append(tableName);
+            if (!string.IsNullOrEmpty(condition))
+            {
+                builder.Append(" WHERE ").Append(condition);
+            }
             return builder.ToString();
         }
 

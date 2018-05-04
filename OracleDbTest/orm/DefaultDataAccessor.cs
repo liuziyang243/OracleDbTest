@@ -78,7 +78,7 @@ namespace OracleDbTest.orm
                     cmd.CommandType = CommandType.Text;
                     ParameterHandler.SetParameters(cmd, parms);
                     var reader = cmd.ExecuteReader();
-                    result = ResultHandler.GenerateResultMapFromTable(reader, type);
+                    result = ResultHandler.GenerateResultMapFromTable(reader);
                 }
             }
             catch (Exception ex)
@@ -130,7 +130,30 @@ namespace OracleDbTest.orm
 
         public long queryCount(string sql, Dictionary<string, object> parms)
         {
-            throw new NotImplementedException();
+            PrintSQL(sql);
+            OracleConnection conn = null;
+            long result = 0;
+            try
+            {
+                conn = OracleConnectionFactory.OpenConn();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = sql;
+                    cmd.CommandType = CommandType.Text;
+                    ParameterHandler.SetParameters(cmd, parms);
+                    result = (long) cmd.ExecuteScalar();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                OracleConnectionFactory.CloseConn(conn);
+            }
+
+            return result;
         }
 
         public int update(string sql, Dictionary<string, object> parms)

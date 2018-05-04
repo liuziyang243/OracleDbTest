@@ -24,5 +24,8 @@ namespace OracleDbTest.orm
 
         // 删除实体
         bool Del<T>(string condition, params object[] paramList) where T : class;
+
+        // 查询实体数量
+        long GetCount<T>(string condition, params object[] paramList) where T : class;
     }
 }

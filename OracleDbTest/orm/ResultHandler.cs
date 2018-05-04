@@ -22,12 +22,12 @@ namespace OracleDbTest.orm
             var type = typeof(T);
             List<T> resultList = new List<T>();
             Dictionary<string, string> fieldMap = EntityHelper.GetColumnAttributeMap(type);
-            Dictionary<string, int> columnNameIndexMap = GetNameIndexMapFromDb(type, reader);
+            Dictionary<string, int> columnNameIndexMap = GetNameIndexMapFromDb(reader);
             //遍历reader，从reader中获取指定列的属性值，并将属性值赋值给对象
             while (reader.Read())
             {
-                //利用反射声明对象
-                var t = (T) Activator.CreateInstance(type);
+                //利用反射创建对象
+                var instance = (T) Activator.CreateInstance(type);
                 //读取列值并赋值给属性
                 foreach (var entry in fieldMap)
                 {
@@ -35,7 +35,7 @@ namespace OracleDbTest.orm
                     {
                         var index = columnNameIndexMap[entry.Key.ToLower()];
                         var value = GetValueByType(entry.Value, index, type, reader);
-                        EntityHelper.SetObjectPropertyValue(entry.Value, value, t);
+                        EntityHelper.SetObjectPropertyValue(entry.Value, value, instance);
                     }
                     catch (Exception e)
                     {
@@ -44,23 +44,23 @@ namespace OracleDbTest.orm
                     }
                 }
 
-                resultList.Add(t);
+                resultList.Add(instance);
             }
 
             return resultList;
         }
 
         // 将从数据库读取出的数据每一行转换为一个map，key为列名，value为值，将读取结果封装成一个List
-        public static List<Dictionary<string, object>> GenerateResultMapFromTable(OracleDataReader reader, Type type)
+        public static List<Dictionary<string, object>> GenerateResultMapFromTable(OracleDataReader reader)
         {
             List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
-            Dictionary<string, string> fieldMap = EntityHelper.GetColumnAttributeMap(type);
+            Dictionary<string, int> columnNameIndexMap = GetNameIndexMapFromDb(reader);
             while (reader.Read())
             {
                 Dictionary<string, object> temp = new Dictionary<string, object>();
-                foreach (var entry in fieldMap)
+                foreach (var key in columnNameIndexMap.Keys)
                 {
-                    temp.Add(entry.Key, reader[entry.Key]);
+                    temp.Add(key.Trim().ToLower(), reader[key]);
                 }
 
                 result.Add(temp);
@@ -83,7 +83,7 @@ namespace OracleDbTest.orm
 
 
         // 获取数据库列名和序号的对应关系
-        private static Dictionary<string, int> GetNameIndexMapFromDb(Type type, OracleDataReader reader)
+        private static Dictionary<string, int> GetNameIndexMapFromDb(OracleDataReader reader)
         {
             var result = new Dictionary<string, int>();
             for (var i = 0; i < reader.FieldCount; i++)
