@@ -7,6 +7,7 @@ using System.Data;
 using Oracle.ManagedDataAccess.Client;
 using OracleDbTest.entity;
 using OracleDbTest.orm;
+using OracleDbTest.service;
 
 namespace OracleDbTest
 {
@@ -15,10 +16,30 @@ namespace OracleDbTest
         static void Main(string[] args)
         {
             Console.WriteLine("this is test for oracle db");
+            IPersionService service = ServiceFactory.GetPersionService();
+            List<Person2> personList = service.GetPersionList();
+
+            foreach (var p in personList)
+            {
+                Console.WriteLine(p.ToString());
+            }
+
+            var person = personList[0];
+            person.Schools.RemoveAt(3);
+            person.Schools.Add(new School() {Id = 6});
+            person.Schools.Add(new School() {Id = 7});
+            service.SaveSchools(person);
+
+            /*
             IDataSetAccessor dataSet = OrmEntryFactory.GetDataSetAccessor();
 
-            string condition = "1=1";
-            List<Person> persons = dataSet.SelectList<Person>(condition, null);
+            long len = dataSet.GetCount<Person>(null, null);
+            Console.WriteLine("Total count of persion:{0}", len);
+
+            len = dataSet.GetCount<School>(null, null);
+            Console.WriteLine("total count of school:{0}", len);
+
+            List<Person> persons = dataSet.SelectList<Person>(null, null);
             foreach (var person in persons)
             {
                 Console.WriteLine(person.ToString());
@@ -43,7 +64,7 @@ namespace OracleDbTest
 
             p.Height = 180;
             p.Name = "xiaowang";
-            condition = "id=?";
+            var condition = "id=?";
             flag = dataSet.Update(p, condition, id);
 
             var p2 = dataSet.Select<Person>(condition, id);
@@ -52,8 +73,7 @@ namespace OracleDbTest
 
             flag = dataSet.Del<Person>(condition, id);
             Console.WriteLine("Delete person successful?{0}", flag);
-
-            Console.Read();
+            */
 
             /*
             OracleConnection conn = null;
@@ -122,6 +142,8 @@ namespace OracleDbTest
             }
         }
         */
+
+            Console.Read();
         }
     }
 }

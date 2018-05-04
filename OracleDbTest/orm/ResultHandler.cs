@@ -75,7 +75,8 @@ namespace OracleDbTest.orm
             List<T> result = new List<T>();
             while (reader.Read())
             {
-                result.Add((T) reader[0]);
+                var value = GetValueByType(typeof(T), 0, reader);
+                result.Add((T) value);
             }
 
             return result;
@@ -100,6 +101,12 @@ namespace OracleDbTest.orm
         {
             // 根据对象属性类型读取相应数据库列中的数据
             var propertyType = type.GetProperty(propertyName)?.PropertyType;
+            return GetValueByType(propertyType, index, reader);
+        }
+
+        // 根据属性类型获取对应的值
+        private static object GetValueByType(Type propertyType, int index, OracleDataReader reader)
+        {
             object value;
             if (propertyType == typeof(short))
             {

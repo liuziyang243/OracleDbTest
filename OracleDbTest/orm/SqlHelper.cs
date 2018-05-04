@@ -24,6 +24,20 @@ namespace OracleDbTest.orm
             return GenSelectSql(type, null);
         }
 
+        // 生成选择语句
+        public static string GenSelectSql(string table, string column, string condition)
+        {
+            condition = ConvertCondition(condition);
+            StringBuilder builder = new StringBuilder();
+            builder.Append("SELECT ").Append(column).Append(" FROM ").Append(table);
+            if (!string.IsNullOrEmpty(condition))
+            {
+                builder.Append(" WHERE ").Append(condition);
+            }
+
+            return builder.ToString();
+        }
+
         // 生成带有条件语句的选择语句
         public static string GenSelectSql(Type type, string condition)
         {
@@ -115,7 +129,7 @@ namespace OracleDbTest.orm
             condition = ConvertCondition(condition);
             var tableName = EntityHelper.GetTableName(type);
             var builder = new StringBuilder();
-            builder.Append("DELETE COUNT(*) ").Append(tableName);
+            builder.Append("SELECT COUNT(*) FROM ").Append(tableName);
             if (!string.IsNullOrEmpty(condition))
             {
                 builder.Append(" WHERE ").Append(condition);
@@ -136,33 +150,28 @@ namespace OracleDbTest.orm
         // 处理condition中的参数占位符，将a=?转换为a=:a_类型, 防止出现在更新过程中与:a重复的情况
         private static string ConvertCondition(string condition)
         {
-            if (!string.IsNullOrEmpty(condition) && condition.Contains("?"))
+            if (string.IsNullOrEmpty(condition) || !condition.Contains("?")) return condition;
+            if (condition.ToLower().Contains("and"))
             {
-                if (condition.ToLower().Contains("and"))
+                var temp = condition.ToLower();
+                temp = temp.Replace("and", "$");
+                var conditions = temp.Split('$');
+                var builder = new StringBuilder();
+                foreach (var s in conditions)
                 {
-                    var temp = condition.ToLower();
-                    temp = temp.Replace("and", "$");
-                    var conditions = temp.Split('$');
-                    var builder = new StringBuilder();
-                    foreach (var s in conditions)
-                    {
-                        var con = s.Split('=');
-                        builder.Append(con[0].Trim()).Append("=").Append(":").Append(con[0].Trim()).Append("_").Append(" AND ");
-                    }
+                    var con = s.Split('=');
+                    builder.Append(con[0].Trim()).Append("=").Append(":").Append(con[0].Trim()).Append("_").Append(" AND ");
+                }
 
-                    int len = builder.Length;
-                    condition = builder.Remove(len - 5, 5).ToString();
-                }
-                else
-                {
-                    var con = condition.Split('=');
-                    condition = condition.Replace("?", ":" + con[0].Trim()+"_");
-                }
+                int len = builder.Length;
+                condition = builder.Remove(len - 5, 5).ToString();
             }
             else
             {
-                condition = "1=1";
+                var con = condition.Split('=');
+                condition = condition.Replace("?", ":" + con[0].Trim()+"_");
             }
+
             return condition;
         }
     }

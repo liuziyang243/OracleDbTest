@@ -65,5 +65,20 @@ namespace OracleDbTest.orm
             Dictionary<string, object> oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
             return _dataAccessor.queryCount(sql, oracleParams);
         }
+
+        public List<T> GetColumnList<T>(string table, string column, string condition, params object[] paramList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool InsertColumnData(string table, Dictionary<string, object> columnDatMap)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateColumnData(string table, Dictionary<string, object> columnDatMap, string condition, params object[] paramList)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

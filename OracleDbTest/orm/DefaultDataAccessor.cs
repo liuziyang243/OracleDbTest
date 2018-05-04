@@ -141,7 +141,8 @@ namespace OracleDbTest.orm
                     cmd.CommandText = sql;
                     cmd.CommandType = CommandType.Text;
                     ParameterHandler.SetParameters(cmd, parms);
-                    result = (long) cmd.ExecuteScalar();
+                    var count = cmd.ExecuteScalar();
+                    result = Convert.ToInt64(count);
                 }
             }
             catch (Exception ex)

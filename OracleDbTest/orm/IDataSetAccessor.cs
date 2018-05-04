@@ -27,5 +27,14 @@ namespace OracleDbTest.orm
 
         // 查询实体数量
         long GetCount<T>(string condition, params object[] paramList) where T : class;
+
+        // 查询单列数据
+        List<T> GetColumnList<T>(string table, string column, string condition, params object[] paramList);
+
+        // 向指定表格插入指定列数据
+        bool InsertColumnData(string table, Dictionary<string, object> columnDatMap);
+
+        // 向指定表格更新指定列的数据
+        bool UpdateColumnData(string table, Dictionary<string, object> columnDatMap, string condition, params object[] paramList);
     }
 }
