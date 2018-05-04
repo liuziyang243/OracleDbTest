@@ -1,7 +1,16 @@
 ﻿using System;
 using System.Data;
 using Oracle.ManagedDataAccess.Client;
-
+/***************
+ * @author: liuziyang
+ * @version: v1.0
+ *
+ * @create time: 2018.04.27
+ * @document: 获取oracle数据库连接，并提供关闭接口的功能。
+ * 每次请求都会获取到一个新的数据库连接
+ * 使用Oracle.ManagedDataAccess方式进行数据库连接，需要使用Oracle.ManagedDataAccess.dll
+ * 该方法时oracle提供的官方.net连接数据库方法，并且也是推荐方案
+ */
 namespace OracleDbTest.orm
 {
     public class OracleConnectionFactory

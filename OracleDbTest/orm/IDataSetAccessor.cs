@@ -1,5 +1,11 @@
 ﻿using System.Collections.Generic;
-
+/***************
+ * @author: liuziyang
+ * @version: v1.0
+ *
+ * @create time: 2018.04.27
+ * @document: 对象操作接口，对orm操作进行了接口封装
+ */
 namespace OracleDbTest.orm
 {
     public interface IDataSetAccessor

@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+/***************
+ * @author: liuziyang
+ * @version: v1.0
+ *
+ * @create time: 2018.04.28
+ * @document: 处理sql语句的生成及拼接
+ */
 namespace OracleDbTest.orm
 {
     /**
@@ -116,7 +122,7 @@ namespace OracleDbTest.orm
             return builder.ToString();
         }
 
-        // 处理condition，将a=?转换为a=:a_类型, 防止出现在更新过程中与:a重复的情况
+        // 处理condition中的参数占位符，将a=?转换为a=:a_类型, 防止出现在更新过程中与:a重复的情况
         private static string ConvertCondition(string condition)
         {
             if (!string.IsNullOrEmpty(condition) && condition.Contains("?"))

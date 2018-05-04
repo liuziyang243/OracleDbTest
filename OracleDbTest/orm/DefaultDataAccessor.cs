@@ -4,7 +4,13 @@ using System.Data;
 using System.Linq;
 using Oracle.ManagedDataAccess.Client;
 using OracleDbTest.entity;
-
+/***************
+ * @author: liuziyang
+ * @version: v1.0
+ *
+ * @create time: 2018.05.03
+ * @document: IDataAccessor的默认实现类
+ */
 namespace OracleDbTest.orm
 {
     public class DefaultDataAccessor : IDataAccessor

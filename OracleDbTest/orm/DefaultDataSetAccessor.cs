@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+/***************
+ * @author: liuziyang
+ * @version: v1.0
+ *
+ * @create time: 2018.05.03
+ * @document: IDataSetAccessor的默认实现类
+ */
 namespace OracleDbTest.orm
 {
     public class DefaultDataSetAccessor : IDataSetAccessor

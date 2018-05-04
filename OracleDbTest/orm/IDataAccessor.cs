@@ -1,6 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-
+/***************
+ * @author: liuziyang
+ * @version: v1.0
+ *
+ * @create time: 2018.04.27
+ * @document: 实体操作接口，对一些低层次操作进行封装
+ */
 namespace OracleDbTest.orm
 {
     public interface IDataAccessor

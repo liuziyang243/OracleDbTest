@@ -1,7 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-
+/***************
+ * @author: liuziyang
+ * @version: v1.0
+ *
+ * @create time: 2018.04.27
+ * @document: 实体操作类，主要用来完成通过反射获取POJO对象的属性值，并根据规则转换为对应的数据库列名
+ * 使用了缓存和懒加载机制，首次查询的属性名-列表映射关系的时候触发反射操作，并将反射结果存入Map缓存中，
+ * 下次查询相同类型的映射关系直接从缓存读取
+ */
 namespace OracleDbTest.orm
 {
     /**

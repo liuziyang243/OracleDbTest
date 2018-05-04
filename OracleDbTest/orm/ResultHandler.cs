@@ -4,6 +4,14 @@ using System.Data;
 using System.Reflection;
 using Oracle.ManagedDataAccess.Client;
 
+/***************
+ * @author: liuziyang
+ * @version: v1.0
+ *
+ * @create time: 2018.05.03
+ * @document: 这个类用来处理从oracle数据库查询出来的数据进行处理，通过一系列变换，
+ * 将OracleDataReader读取出来的列表信息转换为实例对象或者Map数据列表
+ */
 namespace OracleDbTest.orm
 {
     public class ResultHandler
@@ -124,6 +132,7 @@ namespace OracleDbTest.orm
             }
             else if (propertyType == typeof(char))
             {
+                // 直接使用GetChar会报错，提示无此方法，需要使用GetString获取
                 value = reader.GetString(index)[0];
             }
             else if (propertyType == typeof(DateTime))

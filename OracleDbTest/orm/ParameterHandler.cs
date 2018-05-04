@@ -3,7 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Oracle.ManagedDataAccess.Client;
-
+/***************
+ * @author: liuziyang
+ * @version: v1.0
+ *
+ * @create time: 2018.05.03
+ * @document: 参数处理类，将插入、更新属性和条件中的参数进行封装，形成OracleParameter
+ * 属性的参数占位符使用 :[属性名] 的形式，为了避免条件中出现相同的占位符，条件中的参数
+ * 占位符使用 :[属性名]_ 的形式。
+ */
 namespace OracleDbTest.orm
 {
     /**
