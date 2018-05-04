@@ -69,24 +69,36 @@ namespace OracleDbTest.service
 
         private List<int> GetSchoolIdsByPersionId(int id)
         {
-            string sql = "SELECT school_id FROM person_school_map WHERE person_id=:id";
+            string table = "person_school_map";
+            string column = "school_id";
+            string condition = "person_id=?";
+/*            string sql = "SELECT school_id FROM person_school_map WHERE person_id=:id";
             Dictionary<string, object> parms = new Dictionary<string, object> {{":id", id}};
-            List<int> schoolIdList = dataAccessor.queryColumnList<int>(sql, parms);
+                        List<int> schoolIdList = dataAccessor.queryColumnList<int>(sql, parms);*/
+            List<int> schoolIdList = dataSet.GetColumnList<int>(table, column, condition, id);
             return schoolIdList;
         }
 
         private void DelSchoolIdForPerson(int pid, int sid)
         {
-            string sql = "DELETE FROM person_school_map WHERE school_id=:sid AND person_id=:pid";
+            string table = "person_school_map";
+            string condition = "person_id=? AND school_id=?";
+            dataSet.DelData(table, condition, pid, sid);
+
+            /*string sql = "DELETE FROM person_school_map WHERE school_id=:sid AND person_id=:pid";
             Dictionary<string, object> parms = new Dictionary<string, object> {{":sid", sid}, {":pid", pid}};
-            dataAccessor.update(sql, parms);
+            dataAccessor.update(sql, parms);*/
         }
 
         private void AddSchoolIdForPerson(int pid, int sid)
         {
-            string sql = "INSERT INTO person_school_map(person_id, school_id) VALUES(:pid, :sid)";
+            string table = "person_school_map";
+            Dictionary<string, object> parms = new Dictionary<string, object> {{"person_id", pid}, {"school_id", sid}};
+            dataSet.InsertColumnData(table, parms);
+
+            /*string sql = "INSERT INTO person_school_map(person_id, school_id) VALUES(:pid, :sid)";
             Dictionary<string, object> parms = new Dictionary<string, object> {{":pid", pid}, {":sid", sid}};
-            dataAccessor.update(sql, parms);
+            dataAccessor.update(sql, parms);*/
         }
     }
 }

@@ -36,5 +36,8 @@ namespace OracleDbTest.orm
 
         // 向指定表格更新指定列的数据
         bool UpdateColumnData(string table, Dictionary<string, object> columnDatMap, string condition, params object[] paramList);
+
+        // 在指定表格中删除满足条件的数据
+        bool DelData(string table, string condition, params object[] paramList);
     }
 }

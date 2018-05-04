@@ -56,6 +56,28 @@ namespace OracleDbTest.orm
             return result;
         }
 
+        // 将map对象转换为占位符和参数值配对的形式
+        public static Dictionary<string, object> GetConditionParams(Dictionary<string, object> columnDatMap)
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            foreach (var o in columnDatMap)
+            {
+                var propertyValue = o.Value;
+                // oracle没有bool类型的值，默认采用number(1)存储，1代表true，0代表false
+                if (propertyValue is bool)
+                {
+                    bool value = (bool)propertyValue;
+                    result.Add(":" + o.Key, value ? 1 : 0);
+                }
+                else
+                {
+                    result.Add(":" + o.Key, propertyValue);
+                }
+            }
+
+            return result;
+        }
+
         // 将condition中的？转换为匹配的占位符并与实际参数配对
         public static Dictionary<string, object> GetConditionParams(string condition, params object[] parmObjects)
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
 /***************
  * @author: liuziyang
  * @version: v1.0
@@ -88,6 +89,23 @@ namespace OracleDbTest.orm
             return builder.ToString();
         }
 
+        // 生成插入语句
+        public static string GenInsertSql(string table, Dictionary<string, object> columnDatMap)
+        {
+            var builder = new StringBuilder();
+            var columns = new StringBuilder();
+            var attributes = new StringBuilder();
+            foreach (var o in columnDatMap)
+            {
+                columns.Append(o.Key).Append(",");
+                attributes.Append(":").Append(o.Key).Append(",");
+            }
+
+            builder.Append("INSERT INTO ").Append(table).Append("(").Append(columns.ToString(0, columns.Length - 1))
+                .Append(") VALUES (").Append(attributes.ToString(0, attributes.Length - 1)).Append(")");
+            return builder.ToString();
+        }
+
         // 生成更新语句
         public static string GenUpdateSql(Type type, string condition)
         {
@@ -106,20 +124,48 @@ namespace OracleDbTest.orm
             {
                 builder.Append(" WHERE ").Append(condition);
             }
+
+            return builder.ToString();
+        }
+
+        // 生成更新语句
+        public static string GenUpdateSql(string table, Dictionary<string, object> columnDatMap, string condition)
+        {
+            condition = ConvertCondition(condition);
+            var builder = new StringBuilder();
+            var columns = new StringBuilder();
+            foreach (var column in columnDatMap)
+            {
+                columns.Append(column.Key).Append("=:").Append(column.Key).Append(",");
+            }
+
+            builder.Append("UPDATE ").Append(table).Append(" SET ").Append(columns.ToString(0, columns.Length - 1));
+            if (!string.IsNullOrEmpty(condition))
+            {
+                builder.Append(" WHERE ").Append(condition);
+            }
+
             return builder.ToString();
         }
 
         // 生成删除语句
         public static string GenDelSql(Type type, string condition)
         {
-            condition = ConvertCondition(condition);
             var tableName = EntityHelper.GetTableName(type);
+            return GenDelSql(tableName, condition);
+        }
+
+        // 生成删除语句
+        public static string GenDelSql(string tableName, string condition)
+        {
+            condition = ConvertCondition(condition);
             var builder = new StringBuilder();
             builder.Append("DELETE FROM ").Append(tableName);
             if (!string.IsNullOrEmpty(condition))
             {
                 builder.Append(" WHERE ").Append(condition);
             }
+
             return builder.ToString();
         }
 
@@ -134,6 +180,7 @@ namespace OracleDbTest.orm
             {
                 builder.Append(" WHERE ").Append(condition);
             }
+
             return builder.ToString();
         }
 
@@ -160,7 +207,8 @@ namespace OracleDbTest.orm
                 foreach (var s in conditions)
                 {
                     var con = s.Split('=');
-                    builder.Append(con[0].Trim()).Append("=").Append(":").Append(con[0].Trim()).Append("_").Append(" AND ");
+                    builder.Append(con[0].Trim()).Append("=").Append(":").Append(con[0].Trim()).Append("_")
+                        .Append(" AND ");
                 }
 
                 int len = builder.Length;
@@ -169,7 +217,7 @@ namespace OracleDbTest.orm
             else
             {
                 var con = condition.Split('=');
-                condition = condition.Replace("?", ":" + con[0].Trim()+"_");
+                condition = condition.Replace("?", ":" + con[0].Trim() + "_");
             }
 
             return condition;
