@@ -18,6 +18,31 @@ namespace OracleDbTest
             Console.WriteLine("this is test for oracle db");
             IDataSetAccessor dataSet = OrmEntryFactory.GetDataSetAccessor();
 
+            int id = new Random().Next(10000);
+
+            Person p = new Person
+            {
+                Id = id,
+                Name = "xiaoming",
+                Sex = "male",
+                Height = 176.1f,
+                Weight = 32.23,
+                Note = "this is a record",
+                Salary = 123.23f,
+                IsMarried = true,
+                FamilyName = 'a',
+                Birthday = new DateTime(2017, 6, 1),
+                Count = 324321432143232324
+            };
+            bool flag = dataSet.Insert(p);
+            Console.WriteLine("Insert person successful?{0}", flag);
+
+            var condition = "id=?";
+            var person = dataSet.Select<Person>(condition, id);
+            Console.WriteLine("birthday:{0}", person.Birthday);
+            Console.WriteLine("count:{0}", person.Count);
+
+            /*
             var con = "note like '%is%'";
             var list = dataSet.SelectList<Person>(con);
             var count = dataSet.GetCount<Person>(con);
@@ -36,6 +61,7 @@ namespace OracleDbTest
             person.Schools.Add(new School() {Id = 6});
             person.Schools.Add(new School() {Id = 7});
             service.SaveSchools(person);
+            */
 
             /*
             IDataSetAccessor dataSet = OrmEntryFactory.GetDataSetAccessor();
