@@ -17,33 +17,21 @@ namespace OracleDbTest
         {
             Console.WriteLine("this is test for oracle db");
             IDataSetAccessor dataSet = OrmEntryFactory.GetDataSetAccessor();
-            int id = new Random().Next(10000);
-            Person pe = new Person
-            {
-                Id = id,
-                Name = "xiaoming",
-                Sex = "male",
-                Height = 176.1f,
-                Weight = 32.23,
-                Note = "this is a record",
-                Salary = 123.23f,
-                IsMarried = true,
-                FamilyName = 'a'
-            };
-            bool flag = dataSet.Insert(pe);
 
             var con = "note like '%is%'";
             var list = dataSet.SelectList<Person>(con);
+            var count = dataSet.GetCount<Person>(con);
+            Console.WriteLine("Count of person is {0}",count);
 
             IPersionService service = ServiceFactory.GetPersionService();
-            List<PersonDo> personList = service.GetPersionList();
+            List<PersonDo> personList = service.GetPersonList();
 
             foreach (var p in personList)
             {
                 Console.WriteLine(p.ToString());
             }
 
-            var person = personList[0];
+            var person = service.GetPerson(1921);
             person.Schools.RemoveAt(3);
             person.Schools.Add(new School() {Id = 6});
             person.Schools.Add(new School() {Id = 7});

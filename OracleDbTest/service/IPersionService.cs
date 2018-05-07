@@ -5,8 +5,10 @@ namespace OracleDbTest.service
 {
     public interface IPersionService
     {
-        List<PersonDo> GetPersionList();
+        List<PersonDo> GetPersonList();
 
-        void SaveSchools(PersonDo persion);
+        PersonDo GetPerson(int id);
+
+        void SaveSchools(PersonDo person);
     }
 }

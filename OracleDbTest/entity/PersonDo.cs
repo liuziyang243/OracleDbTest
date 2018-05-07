@@ -21,7 +21,6 @@ namespace OracleDbTest.entity
             Salary = person.Salary;
         }
 
-
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder(base.ToString());
