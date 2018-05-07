@@ -16,8 +16,22 @@ namespace OracleDbTest
         static void Main(string[] args)
         {
             Console.WriteLine("this is test for oracle db");
+            Person p = new Person
+            {
+                Id = id,
+                Name = "xiaoming",
+                Sex = "male",
+                Height = 176.1f,
+                Weight = 32.23,
+                Note = "this is a record",
+                Salary = 123.23f,
+                IsMarried = true,
+                FamilyName = 'a'
+            };
+            bool flag = dataSet.Insert(p);
+
             IPersionService service = ServiceFactory.GetPersionService();
-            List<Person2> personList = service.GetPersionList();
+            List<Person> personList = service.GetPersionList();
 
             foreach (var p in personList)
             {

@@ -9,7 +9,7 @@ namespace OracleDbTest.service
         private IDataAccessor dataAccessor = OrmEntryFactory.GetDataAccessor();
         private IDataSetAccessor dataSet = OrmEntryFactory.GetDataSetAccessor();
 
-        public List<Person2> GetPersionList()
+        public List<PersonDo> GetPersionList()
         {
             List<Person> persons = dataSet.SelectList<Person>(null, null);
             List<Person2> resultList = new List<Person2>();
@@ -23,7 +23,7 @@ namespace OracleDbTest.service
             return resultList;
         }
 
-        public void SaveSchools(Person2 person)
+        public void SaveSchools(PersonDo person)
         {
             List<int> oldSchoolIds = GetSchoolIdsByPersionId(person.Id);
             List<int> newSchoolIds = new List<int>();

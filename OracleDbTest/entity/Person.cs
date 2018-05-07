@@ -3,7 +3,7 @@ using OracleDbTest.orm;
 
 namespace OracleDbTest.entity
 {
-    [TableAttribute("persion")]
+    [TableAttribute("person")]
     public class Person
     {
         public int Id { set; get; }
