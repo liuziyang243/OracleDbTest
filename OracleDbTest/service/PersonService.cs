@@ -12,10 +12,10 @@ namespace OracleDbTest.service
         public List<PersonDo> GetPersionList()
         {
             List<Person> persons = dataSet.SelectList<Person>(null, null);
-            List<Person2> resultList = new List<Person2>();
+            List<PersonDo> resultList = new List<PersonDo>();
             foreach (var person in persons)
             {
-                Person2 p = new Person2(person);
+                PersonDo p = new PersonDo(person);
                 p.Schools = GetSchoolsByPersionId(p.Id);
                 resultList.Add(p);
             }

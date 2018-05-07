@@ -16,7 +16,9 @@ namespace OracleDbTest
         static void Main(string[] args)
         {
             Console.WriteLine("this is test for oracle db");
-            Person p = new Person
+            IDataSetAccessor dataSet = OrmEntryFactory.GetDataSetAccessor();
+            int id = new Random().Next(10000);
+            Person pe = new Person
             {
                 Id = id,
                 Name = "xiaoming",
@@ -28,10 +30,13 @@ namespace OracleDbTest
                 IsMarried = true,
                 FamilyName = 'a'
             };
-            bool flag = dataSet.Insert(p);
+            bool flag = dataSet.Insert(pe);
+
+            var con = "note like '%is%'";
+            var list = dataSet.SelectList<Person>(con);
 
             IPersionService service = ServiceFactory.GetPersionService();
-            List<Person> personList = service.GetPersionList();
+            List<PersonDo> personList = service.GetPersionList();
 
             foreach (var p in personList)
             {

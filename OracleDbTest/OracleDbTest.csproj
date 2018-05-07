@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="entity\Person.cs" />
+    <Compile Include="entity\PersonDo.cs" />
     <Compile Include="entity\School.cs" />
     <Compile Include="orm\ColumnAttribute.cs" />
     <Compile Include="orm\DefaultDataSetAccessor.cs" />
@@ -69,13 +70,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="doc\orm框架使用说明.docx" />
+    <None Include="doc\配图.vsd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\Oracle.ManagedDataAccess.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="doc\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
