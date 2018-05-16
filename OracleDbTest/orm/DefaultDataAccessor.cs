@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Oracle.ManagedDataAccess.Client;
-using OracleDbTest.entity;
 /***************
  * @author: liuziyang
  * @version: v1.0

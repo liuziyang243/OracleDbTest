@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using Oracle.ManagedDataAccess.Client;
-using OracleDbTest.entity;
 using OracleDbTest.orm;
 using OracleDbTest.service;
 
@@ -13,8 +12,11 @@ namespace OracleDbTest
 {
     class Program
     {
+        //lql
+        
         static void Main(string[] args)
         {
+            /*
             Console.WriteLine("this is test for oracle db");
             IDataSetAccessor dataSet = OrmEntryFactory.GetDataSetAccessor();
 
@@ -41,6 +43,12 @@ namespace OracleDbTest
             var person = dataSet.Select<Person>(condition, id);
             Console.WriteLine("birthday:{0}", person.Birthday);
             Console.WriteLine("count:{0}", person.Count);
+
+            */
+
+
+
+
 
             /*
             var con = "note like '%is%'";
@@ -176,7 +184,15 @@ namespace OracleDbTest
         }
         */
 
+
+
+            //lql
+            /*
             Console.Read();
+            */
         }
+        
+
+
     }
 }
