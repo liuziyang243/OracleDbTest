@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Oracle.ManagedDataAccess.Client;
-using OracleDbTest.entity;
+
 /***************
  * @author: liuziyang
  * @version: v1.0
@@ -18,13 +18,13 @@ namespace OracleDbTest.orm
         private const bool PrintSqlFlag = true;
         #region 接口实现
 
-        public T queryEntity<T>(string sql, Dictionary<string, object> parms) where T : class
+        public T QueryEntity<T>(string sql, Dictionary<string, object> parms) where T : class
         {
-            List<T> list = queryEntityList<T>(sql, parms);
+            List<T> list = QueryEntityList<T>(sql, parms);
             return list.Any() ? list[0] : null;
         }
 
-        public List<T> queryEntityList<T>(string sql, Dictionary<string, object> parms) where T : class
+        public List<T> QueryEntityList<T>(string sql, Dictionary<string, object> parms) where T : class
         {
             PrintSQL(sql);
             OracleConnection conn = null;
@@ -53,9 +53,9 @@ namespace OracleDbTest.orm
             return result;
         }
 
-        public Dictionary<string, object> queryMap(string sql, Type type, Dictionary<string, object> parms)
+        public Dictionary<string, object> QueryMap(string sql, Type type, Dictionary<string, object> parms)
         {
-            List<Dictionary<string, object>> result = queryMapList(sql, type, parms);
+            List<Dictionary<string, object>> result = QueryMapList(sql, type, parms);
             if (result.Any())
             {
                 return result[0];
@@ -64,7 +64,7 @@ namespace OracleDbTest.orm
             return new Dictionary<string, object>();
         }
 
-        public List<Dictionary<string, object>> queryMapList(string sql, Type type, Dictionary<string, object> parms)
+        public List<Dictionary<string, object>> QueryMapList(string sql, Type type, Dictionary<string, object> parms)
         {
             PrintSQL(sql);
             OracleConnection conn = null;
@@ -93,13 +93,13 @@ namespace OracleDbTest.orm
             return result;
         }
 
-        public T queryColumn<T>(string sql, Dictionary<string, object> parms)
+        public T QueryColumn<T>(string sql, Dictionary<string, object> parms)
         {
-            List<T> list = queryColumnList<T>(sql, parms);
+            List<T> list = QueryColumnList<T>(sql, parms);
             return list.Any() ? list[0] : default(T);
         }
 
-        public List<T> queryColumnList<T>(string sql, Dictionary<string, object> parms)
+        public List<T> QueryColumnList<T>(string sql, Dictionary<string, object> parms)
         {
             PrintSQL(sql);
             OracleConnection conn = null;
@@ -128,7 +128,7 @@ namespace OracleDbTest.orm
             return result;
         }
 
-        public long queryCount(string sql, Dictionary<string, object> parms)
+        public long QueryCount(string sql, Dictionary<string, object> parms)
         {
             PrintSQL(sql);
             OracleConnection conn = null;
@@ -157,7 +157,7 @@ namespace OracleDbTest.orm
             return result;
         }
 
-        public int update(string sql, Dictionary<string, object> parms)
+        public int Update(string sql, Dictionary<string, object> parms)
         {
             PrintSQL(sql);
             OracleConnection conn = null;

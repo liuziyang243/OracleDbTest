@@ -16,11 +16,11 @@ namespace OracleDbTest
         static void Main(string[] args)
         {
             Console.WriteLine("this is test for oracle db");
-            IDataSetAccessor dataSet = OrmEntryFactory.GetDataSetAccessor();
+            var dataSet = OrmEntryFactory.GetDataSetAccessor();
 
-            int id = new Random().Next(10000);
+            var id = new Random().Next(10000);
 
-            Person p = new Person
+            var p = new Person
             {
                 Id = id,
                 Name = "xiaoming",
@@ -34,10 +34,10 @@ namespace OracleDbTest
                 Birthday = new DateTime(2017, 6, 1),
                 Count = 324321432143232324
             };
-            bool flag = dataSet.Insert(p);
+            var flag = dataSet.Insert(p);
             Console.WriteLine("Insert person successful?{0}", flag);
 
-            var condition = "id=?";
+            const string condition = "id=?";
             var person = dataSet.Select<Person>(condition, id);
             Console.WriteLine("birthday:{0}", person.Birthday);
             Console.WriteLine("count:{0}", person.Count);
