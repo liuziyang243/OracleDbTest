@@ -74,7 +74,7 @@ namespace OracleDbTest.orm
         //获取数据库列名和属性名对应关系map，key-列名，value-属性名
         public static Dictionary<string, string> GetColumnAttributeMap(Type type)
         {
-            Dictionary<string, string> result = new Dictionary<string, string>();
+            var result = new Dictionary<string, string>();
             var temp = EntityMap.ContainsKey(type) ? EntityMap[type] : GetTargetAttributeColumnMap(type);
             // 翻转key-value
             foreach (var entry in temp)
@@ -109,24 +109,17 @@ namespace OracleDbTest.orm
         // 使用反射的方式获取属性-列名列表，在首次从缓存查询的时候使用
         private static Dictionary<string, string> GetTargetAttributeColumnMap(Type type)
         {
-            Dictionary<string, string> result = new Dictionary<string, string>();
-            Dictionary<string, PropertyInfo> infoMap = new Dictionary<string, PropertyInfo>();
-            PropertyInfo[] infos = type.GetProperties();
+            var result = new Dictionary<string, string>();
+            var infos = type.GetProperties();
             foreach (var info in infos)
             {
-                infoMap.Add(info.Name, info);
                 // 判断属性上是否有注解，如果有注解，则直接使用注解中的Column作为列名
-                object[] objDataFieldAttribute = info.GetCustomAttributes(typeof(ColumnAttribute), false);
+                var objDataFieldAttribute = info.GetCustomAttributes(typeof(ColumnAttribute), false);
                 // 使用注解作为列名
-                if (objDataFieldAttribute.Length != 0)
-                {
-                    result.Add(info.Name, ((ColumnAttribute)objDataFieldAttribute[0]).ColumnName);
-                }
-                else
-                {
-                    //否则默认认为列名和属性名相同,且都转换为小写
-                    result.Add(info.Name, info.Name.ToLower());
-                }
+                result.Add(info.Name,
+                    objDataFieldAttribute.Length != 0
+                        ? ((ColumnAttribute) objDataFieldAttribute[0]).ColumnName
+                        : info.Name.ToLower());
             }
             // 将反射后的结果缓存起来
             EntityMap.Add(type, result);

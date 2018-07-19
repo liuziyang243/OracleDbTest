@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 /***************
@@ -18,84 +17,84 @@ namespace OracleDbTest.orm
 
         public T Select<T>(string condition, params object[] paramList) where T : class
         {
-            Type type = typeof(T);
-            string sql = SqlHelper.GenSelectSql(type, condition);
-            Dictionary<string, object> oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
+            var type = typeof(T);
+            var sql = SqlHelper.GenSelectSql(type, condition);
+            var oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
             return _dataAccessor.QueryEntity<T>(sql, oracleParams);
         }
 
         public List<T> SelectList<T>(string condition, params object[] paramList) where T : class
         {
-            Type type = typeof(T);
-            string sql = SqlHelper.GenSelectSql(type, condition);
-            Dictionary<string, object> oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
+            var type = typeof(T);
+            var sql = SqlHelper.GenSelectSql(type, condition);
+            var oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
             return _dataAccessor.QueryEntityList<T>(sql, oracleParams);
         }
 
         public bool Insert<T>(T t) where T : class
         {
-            Type type = typeof(T);
-            string sql = SqlHelper.GenInsertSql(type);
-            Dictionary<string, object> oracleParams = ParameterHandler.GetConditionParams(t);
+            var type = typeof(T);
+            var sql = SqlHelper.GenInsertSql(type);
+            var oracleParams = ParameterHandler.GetConditionParams(t);
             return _dataAccessor.Update(sql, oracleParams) > 0;
         }
 
         public bool Update<T>(T t, string condition, params object[] paramList) where T : class
         {
-            Type type = typeof(T);
-            string sql = SqlHelper.GenUpdateSql(type, condition);
-            Dictionary<string, object> oracleParams1 = ParameterHandler.GetConditionParams(t);
-            Dictionary<string, object> oracleParams2 = ParameterHandler.GetConditionParams(condition, paramList);
-            Dictionary<string, object> oracleParams =
+            var type = typeof(T);
+            var sql = SqlHelper.GenUpdateSql(type, condition);
+            var oracleParams1 = ParameterHandler.GetConditionParams(t);
+            var oracleParams2 = ParameterHandler.GetConditionParams(condition, paramList);
+            var oracleParams =
                 oracleParams1.Concat(oracleParams2).ToDictionary(k => k.Key, v => v.Value);
             return _dataAccessor.Update(sql, oracleParams) > 0;
         }
 
         public bool Del<T>(string condition, params object[] paramList) where T : class
         {
-            Type type = typeof(T);
-            string sql = SqlHelper.GenDelSql(type, condition);
-            Dictionary<string, object> oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
+            var type = typeof(T);
+            var sql = SqlHelper.GenDelSql(type, condition);
+            var oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
             return _dataAccessor.Update(sql, oracleParams) > 0;
         }
 
         public long GetCount<T>(string condition, params object[] paramList) where T : class
         {
-            Type type = typeof(T);
-            string sql = SqlHelper.GenCountSql(type, condition);
-            Dictionary<string, object> oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
+            var type = typeof(T);
+            var sql = SqlHelper.GenCountSql(type, condition);
+            var oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
             return _dataAccessor.QueryCount(sql, oracleParams);
         }
 
         public List<T> GetColumnList<T>(string table, string column, string condition, params object[] paramList)
         {
-            string sql = SqlHelper.GenSelectSql(table, column, condition);
-            Dictionary<string, object> oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
+            var sql = SqlHelper.GenSelectSql(table, column, condition);
+            var oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
             return _dataAccessor.QueryColumnList<T>(sql, oracleParams);
         }
 
         public bool InsertColumnData(string table, Dictionary<string, object> columnDatMap)
         {
-            string sql = SqlHelper.GenInsertSql(table, columnDatMap);
-            Dictionary<string, object> oracleParams = ParameterHandler.GetConditionParams(columnDatMap);
+            var sql = SqlHelper.GenInsertSql(table, columnDatMap);
+            var oracleParams = ParameterHandler.GetConditionParams(columnDatMap);
             return _dataAccessor.Update(sql, oracleParams) > 0;
         }
 
         public bool UpdateColumnData(string table, Dictionary<string, object> columnDatMap, string condition,
             params object[] paramList)
         {
-            string sql = SqlHelper.GenUpdateSql(table, columnDatMap, condition);
-            Dictionary<string, object> oracleParams1 = ParameterHandler.GetConditionParams(columnDatMap);
-            Dictionary<string, object> oracleParams2 = ParameterHandler.GetConditionParams(condition, paramList);
-            Dictionary<string, object> oracleParams =
+            var sql = SqlHelper.GenUpdateSql(table, columnDatMap, condition);
+            var oracleParams1 = ParameterHandler.GetConditionParams(columnDatMap);
+            var oracleParams2 = ParameterHandler.GetConditionParams(condition, paramList);
+            var oracleParams =
                 oracleParams1.Concat(oracleParams2).ToDictionary(k => k.Key, v => v.Value);
             return _dataAccessor.Update(sql, oracleParams) > 0;
         }
 
         public bool DelData(string table, string condition, params object[] paramList)
         {
-            string sql = SqlHelper.GenDelSql(table, condition);
-            Dictionary<string, object> oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
+            var sql = SqlHelper.GenDelSql(table, condition);
+            var oracleParams = ParameterHandler.GetConditionParams(condition, paramList);
             return _dataAccessor.Update(sql, oracleParams) > 0;
         }
     }

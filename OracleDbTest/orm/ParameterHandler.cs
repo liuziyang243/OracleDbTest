@@ -18,7 +18,7 @@ namespace OracleDbTest.orm
     /**
      * 处理sql中的参数
      */
-    public class ParameterHandler
+    public static class ParameterHandler
     {
         // 设置sql语句参数, parms中key为sql语句参数占位符，value为实际的参数值
         public static void SetParameters(OracleCommand cmd, Dictionary<string, object> parms)
@@ -35,16 +35,16 @@ namespace OracleDbTest.orm
         // 将实体类属性转换为占位符和参数值配对的形式
         public static Dictionary<string, object> GetConditionParams(object obj)
         {
-            Type type = obj.GetType();
-            Dictionary<string, object> result = new Dictionary<string, object>();
-            Dictionary<string, string> fieldMap = EntityHelper.GetAttributeColumnMap(type);
+            var type = obj.GetType();
+            var result = new Dictionary<string, object>();
+            var fieldMap = EntityHelper.GetAttributeColumnMap(type);
             foreach (var field in fieldMap)
             {
                 var propertyValue = EntityHelper.GetObjectPropertyValue(obj, field.Key);
                 // oracle没有bool类型的值，默认采用number(1)存储，1代表true，0代表false
                 if (propertyValue is bool)
                 {
-                    bool value = (bool) propertyValue;
+                    var value = (bool) propertyValue;
                     result.Add(":" + field.Value, value ? 1 : 0);
                 }
                 else
@@ -59,14 +59,14 @@ namespace OracleDbTest.orm
         // 将map对象转换为占位符和参数值配对的形式
         public static Dictionary<string, object> GetConditionParams(Dictionary<string, object> columnDatMap)
         {
-            Dictionary<string, object> result = new Dictionary<string, object>();
+            var result = new Dictionary<string, object>();
             foreach (var o in columnDatMap)
             {
                 var propertyValue = o.Value;
                 // oracle没有bool类型的值，默认采用number(1)存储，1代表true，0代表false
                 if (propertyValue is bool)
                 {
-                    bool value = (bool)propertyValue;
+                    var value = (bool)propertyValue;
                     result.Add(":" + o.Key, value ? 1 : 0);
                 }
                 else
@@ -118,7 +118,7 @@ namespace OracleDbTest.orm
                     // oracle没有bool类型的值，默认采用number(1)存储，1代表true，0代表false
                     if (parmObjects[i] is bool)
                     {
-                        bool value = (bool) parmObjects[i];
+                        var value = (bool) parmObjects[i];
                         result.Add(placeholderArray[i], value ? 1 : 0);
                     }
                     else

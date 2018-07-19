@@ -7,7 +7,7 @@
  * @document: 工厂方法，用于统一提供接口实例
  */
 {
-    public class OrmEntryFactory
+    public static class OrmEntryFactory
     {
         public static IDataAccessor GetDataAccessor()
         {

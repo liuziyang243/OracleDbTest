@@ -19,15 +19,15 @@ namespace OracleDbTest.orm
 
         public T QueryEntity<T>(string sql, Dictionary<string, object> parms) where T : class
         {
-            List<T> list = QueryEntityList<T>(sql, parms);
+            var list = QueryEntityList<T>(sql, parms);
             return list.Any() ? list[0] : null;
         }
 
         public List<T> QueryEntityList<T>(string sql, Dictionary<string, object> parms) where T : class
         {
-            PrintSQL(sql);
+            PrintSql(sql);
             OracleConnection conn = null;
-            List<T> result = new List<T>();
+            var result = new List<T>();
             try
             {
                 conn = OracleConnectionFactory.OpenConn();
@@ -54,7 +54,7 @@ namespace OracleDbTest.orm
 
         public Dictionary<string, object> QueryMap(string sql, Type type, Dictionary<string, object> parms)
         {
-            List<Dictionary<string, object>> result = QueryMapList(sql, type, parms);
+            var result = QueryMapList(sql, type, parms);
             if (result.Any())
             {
                 return result[0];
@@ -65,9 +65,9 @@ namespace OracleDbTest.orm
 
         public List<Dictionary<string, object>> QueryMapList(string sql, Type type, Dictionary<string, object> parms)
         {
-            PrintSQL(sql);
+            PrintSql(sql);
             OracleConnection conn = null;
-            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
+            var result = new List<Dictionary<string, object>>();
             try
             {
                 conn = OracleConnectionFactory.OpenConn();
@@ -94,15 +94,15 @@ namespace OracleDbTest.orm
 
         public T QueryColumn<T>(string sql, Dictionary<string, object> parms)
         {
-            List<T> list = QueryColumnList<T>(sql, parms);
+            var list = QueryColumnList<T>(sql, parms);
             return list.Any() ? list[0] : default(T);
         }
 
         public List<T> QueryColumnList<T>(string sql, Dictionary<string, object> parms)
         {
-            PrintSQL(sql);
+            PrintSql(sql);
             OracleConnection conn = null;
-            List<T> result = new List<T>();
+            var result = new List<T>();
             try
             {
                 conn = OracleConnectionFactory.OpenConn();
@@ -129,7 +129,7 @@ namespace OracleDbTest.orm
 
         public long QueryCount(string sql, Dictionary<string, object> parms)
         {
-            PrintSQL(sql);
+            PrintSql(sql);
             OracleConnection conn = null;
             long result = 0;
             try
@@ -158,7 +158,7 @@ namespace OracleDbTest.orm
 
         public int Update(string sql, Dictionary<string, object> parms)
         {
-            PrintSQL(sql);
+            PrintSql(sql);
             OracleConnection conn = null;
             try
             {
@@ -187,7 +187,7 @@ namespace OracleDbTest.orm
 
         #region 打印sql语句
 
-        private void PrintSQL(string sql)
+        private static void PrintSql(string sql)
         {
             if (PrintSqlFlag)
             {

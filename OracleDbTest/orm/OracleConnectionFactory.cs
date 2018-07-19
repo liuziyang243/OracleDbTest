@@ -13,7 +13,7 @@ using Oracle.ManagedDataAccess.Client;
  */
 namespace OracleDbTest.orm
 {
-    public class OracleConnectionFactory
+    public static class OracleConnectionFactory
     {
         #region 数据库连接操作
 
