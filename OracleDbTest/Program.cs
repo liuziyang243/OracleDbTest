@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using Oracle.ManagedDataAccess.Client;
-using OracleDbTest.entity;
 using OracleDbTest.orm;
 using OracleDbTest.service;
 
@@ -13,22 +12,64 @@ namespace OracleDbTest
 {
     class Program
     {
+        //lql
+        
         static void Main(string[] args)
         {
+            /*
             Console.WriteLine("this is test for oracle db");
+            var dataSet = OrmEntryFactory.GetDataSetAccessor();
+
+            var id = new Random().Next(10000);
+
+            var p = new Person
+            {
+                Id = id,
+                Name = "xiaoming",
+                Sex = "male",
+                Height = 176.1f,
+                Weight = 32.23,
+                Note = "this is a record",
+                Salary = 123.23f,
+                IsMarried = true,
+                FamilyName = 'a',
+                Birthday = new DateTime(2017, 6, 1),
+                Count = 324321432143232324
+            };
+            var flag = dataSet.Insert(p);
+            Console.WriteLine("Insert person successful?{0}", flag);
+
+            const string condition = "id=?";
+            var person = dataSet.Select<Person>(condition, id);
+            Console.WriteLine("birthday:{0}", person.Birthday);
+            Console.WriteLine("count:{0}", person.Count);
+
+            */
+
+
+
+
+
+            /*
+            var con = "note like '%is%'";
+            var list = dataSet.SelectList<Person>(con);
+            var count = dataSet.GetCount<Person>(con);
+            Console.WriteLine("Count of person is {0}",count);
+
             IPersionService service = ServiceFactory.GetPersionService();
-            List<Person2> personList = service.GetPersionList();
+            List<PersonDo> personList = service.GetPersonList();
 
             foreach (var p in personList)
             {
                 Console.WriteLine(p.ToString());
             }
 
-            var person = personList[0];
+            var person = service.GetPerson(1921);
             person.Schools.RemoveAt(3);
             person.Schools.Add(new School() {Id = 6});
             person.Schools.Add(new School() {Id = 7});
             service.SaveSchools(person);
+            */
 
             /*
             IDataSetAccessor dataSet = OrmEntryFactory.GetDataSetAccessor();
@@ -143,7 +184,15 @@ namespace OracleDbTest
         }
         */
 
+
+
+            //lql
+            /*
             Console.Read();
+            */
         }
+        
+
+
     }
 }

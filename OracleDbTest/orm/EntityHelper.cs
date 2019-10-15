@@ -13,9 +13,11 @@ using System.Reflection;
 namespace OracleDbTest.orm
 {
     /**
+     * 该类主要用于维护表名、属性名、列名的相关信息
+     * 列名采用约定的方式从属性名或者属性注解中获取，默认为属性名全小写
      * 使用该类可以获取表名和属性-列名映射列表
      */
-    public class EntityHelper
+    public static class EntityHelper
     {
         private static readonly Dictionary<Type, Dictionary<string, string>> EntityMap = new Dictionary<Type, Dictionary<string, string>>();
 
@@ -72,9 +74,8 @@ namespace OracleDbTest.orm
         //获取数据库列名和属性名对应关系map，key-列名，value-属性名
         public static Dictionary<string, string> GetColumnAttributeMap(Type type)
         {
-            Dictionary<string, string> temp;
-            Dictionary<string, string> result = new Dictionary<string, string>();
-            temp = EntityMap.ContainsKey(type) ? EntityMap[type] : GetTargetAttributeColumnMap(type);
+            var result = new Dictionary<string, string>();
+            var temp = EntityMap.ContainsKey(type) ? EntityMap[type] : GetTargetAttributeColumnMap(type);
             // 翻转key-value
             foreach (var entry in temp)
             {
@@ -89,8 +90,9 @@ namespace OracleDbTest.orm
         {
             string tableName;
             // 判断是否有注解
-            object[] objTableAttribute = type.GetCustomAttributes(typeof(TableAttribute), false);
-            if (objTableAttribute != null && objTableAttribute.Length != 0)
+            var objTableAttribute = type.GetCustomAttributes(typeof(TableAttribute), false);
+            // 如果有注解，则使用注解作为列名
+            if (objTableAttribute.Length != 0)
             {
                 tableName = ((TableAttribute)objTableAttribute[0]).TableName;
             }
@@ -107,23 +109,17 @@ namespace OracleDbTest.orm
         // 使用反射的方式获取属性-列名列表，在首次从缓存查询的时候使用
         private static Dictionary<string, string> GetTargetAttributeColumnMap(Type type)
         {
-            Dictionary<string, string> result = new Dictionary<string, string>();
-            Dictionary<string, PropertyInfo> infoMap = new Dictionary<string, PropertyInfo>();
-            PropertyInfo[] infos = type.GetProperties();
+            var result = new Dictionary<string, string>();
+            var infos = type.GetProperties();
             foreach (var info in infos)
             {
-                infoMap.Add(info.Name, info);
                 // 判断属性上是否有注解，如果有注解，则直接使用注解中的Column作为列名
-                object[] objDataFieldAttribute = info.GetCustomAttributes(typeof(ColumnAttribute), false);
-                if (objDataFieldAttribute != null && objDataFieldAttribute.Length != 0)
-                {
-                    result.Add(info.Name, ((ColumnAttribute)objDataFieldAttribute[0]).ColumnName);
-                }
-                else
-                {
-                    //否则默认认为列名和属性名相同,且都转换为小写
-                    result.Add(info.Name, info.Name.ToLower());
-                }
+                var objDataFieldAttribute = info.GetCustomAttributes(typeof(ColumnAttribute), false);
+                // 使用注解作为列名
+                result.Add(info.Name,
+                    objDataFieldAttribute.Length != 0
+                        ? ((ColumnAttribute) objDataFieldAttribute[0]).ColumnName
+                        : info.Name.ToLower());
             }
             // 将反射后的结果缓存起来
             EntityMap.Add(type, result);

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Reflection;
 using Oracle.ManagedDataAccess.Client;
 
 /***************
@@ -42,6 +40,10 @@ namespace OracleDbTest.orm
                         Console.WriteLine(e);
                         throw;
                     }
+                    finally
+                    {
+                        reader.Close();
+                    }
                 }
 
                 resultList.Add(instance);
@@ -55,31 +57,45 @@ namespace OracleDbTest.orm
         {
             List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
             Dictionary<string, int> columnNameIndexMap = GetNameIndexMapFromDb(reader);
-            while (reader.Read())
+            try
             {
-                Dictionary<string, object> temp = new Dictionary<string, object>();
-                foreach (var key in columnNameIndexMap.Keys)
+                while (reader.Read())
                 {
-                    temp.Add(key.Trim().ToLower(), reader[key]);
+                    Dictionary<string, object> temp = new Dictionary<string, object>();
+                    foreach (var key in columnNameIndexMap.Keys)
+                    {
+                        temp.Add(key.Trim().ToLower(), reader[key]);
+                    }
+
+                    result.Add(temp);
                 }
 
-                result.Add(temp);
+                return result;
             }
-
-            return result;
+            finally
+            {
+                reader.Close();
+            }
         }
 
         // 读取一列数据，将数据转换为一个List返回
         public static List<T> GenerateColumnObjFromTable<T>(OracleDataReader reader)
         {
             List<T> result = new List<T>();
-            while (reader.Read())
+            try
             {
-                var value = GetValueByType(typeof(T), 0, reader);
-                result.Add((T) value);
-            }
+                while (reader.Read())
+                {
+                    var value = GetValueByType(typeof(T), 0, reader);
+                    result.Add((T) value);
+                }
 
-            return result;
+                return result;
+            }
+            finally
+            {
+                reader.Close();
+            }
         }
 
 
@@ -89,8 +105,15 @@ namespace OracleDbTest.orm
             var result = new Dictionary<string, int>();
             for (var i = 0; i < reader.FieldCount; i++)
             {
-                var columnName = reader.GetName(i).Trim().ToLower();
-                result.Add(columnName, i);
+                try
+                {
+                    var columnName = reader.GetName(i).Trim().ToLower();
+                    result.Add(columnName, i);
+                }
+                finally
+                {
+                    reader.Close();
+                }
             }
 
             return result;
@@ -108,54 +131,61 @@ namespace OracleDbTest.orm
         private static object GetValueByType(Type propertyType, int index, OracleDataReader reader)
         {
             object value;
-            if (propertyType == typeof(short))
+            try
             {
-                value = reader.GetInt16(index);
-            }
-            else if (propertyType == typeof(int))
-            {
-                value = reader.GetInt32(index);
-            }
-            else if (propertyType == typeof(long))
-            {
-                value = reader.GetInt64(index);
-            }
-            else if (propertyType == typeof(float))
-            {
-                value = reader.GetFloat(index);
-            }
-            else if (propertyType == typeof(double))
-            {
-                value = reader.GetDouble(index);
-            }
-            else if (propertyType == typeof(bool))
-            {
-                // oracle没有bool类型的值，默认采用number(1)存储，1代表true，0代表false
-                value = reader.GetInt32(index) == 1;
-            }
-            else if (propertyType == typeof(decimal))
-            {
-                value = reader.GetDecimal(index);
-            }
-            else if (propertyType == typeof(char))
-            {
-                // 直接使用GetChar会报错，提示无此方法，需要使用GetString获取
-                value = reader.GetString(index)[0];
-            }
-            else if (propertyType == typeof(DateTime))
-            {
-                value = reader.GetDateTime(index);
-            }
-            else if (propertyType == typeof(string))
-            {
-                value = reader.GetString(index);
-            }
-            else
-            {
-                value = reader[index];
-            }
+                if (propertyType == typeof(short))
+                {
+                    value = reader.GetInt16(index);
+                }
+                else if (propertyType == typeof(int))
+                {
+                    value = reader.GetInt32(index);
+                }
+                else if (propertyType == typeof(long))
+                {
+                    value = reader.GetInt64(index);
+                }
+                else if (propertyType == typeof(float))
+                {
+                    value = reader.GetFloat(index);
+                }
+                else if (propertyType == typeof(double))
+                {
+                    value = reader.GetDouble(index);
+                }
+                else if (propertyType == typeof(bool))
+                {
+                    // oracle没有bool类型的值，默认采用number(1)存储，1代表true，0代表false
+                    value = reader.GetInt32(index) == 1;
+                }
+                else if (propertyType == typeof(decimal))
+                {
+                    value = reader.GetDecimal(index);
+                }
+                else if (propertyType == typeof(char))
+                {
+                    // 直接使用GetChar会报错，提示无此方法，需要使用GetString获取
+                    value = reader.GetString(index)[0];
+                }
+                else if (propertyType == typeof(DateTime))
+                {
+                    value = reader.GetDateTime(index);
+                }
+                else if (propertyType == typeof(string))
+                {
+                    value = reader.GetString(index);
+                }
+                else
+                {
+                    value = reader[index];
+                }
 
-            return value;
+                return value;
+            }
+            finally
+            {
+                reader.Close();
+            }
         }
     }
 }

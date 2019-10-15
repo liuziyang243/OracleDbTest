@@ -1,9 +1,10 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using OracleDbTest.orm;
 
 namespace OracleDbTest.entity
 {
-    [TableAttribute("persion")]
+    [TableAttribute("person")]
     public class Person
     {
         public int Id { set; get; }
@@ -15,6 +16,8 @@ namespace OracleDbTest.entity
         public char FamilyName { set; get; }
         public float Salary { set; get; }
         public bool IsMarried { set; get; }
+        public DateTime Birthday { set; get; }
+        public decimal Count { set; get; }
 
         public override string ToString()
         {
@@ -27,7 +30,9 @@ namespace OracleDbTest.entity
                 .Append("weight:").Append(Weight).Append("\t")
                 .Append("familayName:").Append(FamilyName).Append("\t")
                 .Append("salary:").Append(Salary).Append("\t")
-                .Append("isMarried:").Append(IsMarried);
+                .Append("isMarried:").Append(IsMarried).Append("\t")
+                .Append("birthday:").Append(Birthday).Append("\t")
+                .Append("Count:").Append(Count);
             return builder.ToString();
         }
     }
