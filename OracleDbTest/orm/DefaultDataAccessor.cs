@@ -16,8 +16,8 @@ namespace OracleDbTest.orm
     public class DefaultDataAccessor : IDataAccessor
     {
         private const bool PrintSqlFlag = true;
-        #region 接口实现
 
+        #region 接口实现
         public T queryEntity<T>(string sql, Dictionary<string, object> parms) where T : class
         {
             List<T> list = queryEntityList<T>(sql, parms);
