@@ -19,8 +19,14 @@ namespace OracleDbTest.orm
      */
     public static class EntityHelper
     {
+        /// <summary>
+        /// 存储实体类的属性名和列名的对应关系
+        /// </summary>
         private static readonly Dictionary<Type, Dictionary<string, string>> EntityMap = new Dictionary<Type, Dictionary<string, string>>();
 
+        /// <summary>
+        /// 存储表名
+        /// </summary>
         private static readonly Dictionary<Type, string> TableMap = new Dictionary<Type, string>();
 
         //获取表名

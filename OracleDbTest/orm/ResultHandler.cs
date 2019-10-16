@@ -99,7 +99,11 @@ namespace OracleDbTest.orm
         }
 
 
-        // 获取数据库列名和序号的对应关系
+        /// <summary>
+        /// 获取数据库列名和序号的对应关系,这里参考了DbUtils的实现方法
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
         private static Dictionary<string, int> GetNameIndexMapFromDb(OracleDataReader reader)
         {
             var result = new Dictionary<string, int>();
@@ -186,6 +190,16 @@ namespace OracleDbTest.orm
             {
                 reader.Close();
             }
+        }
+
+        /// <summary>
+        /// 判断类型是否是可空的原始类型，例如int?
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private bool IsNullableType(Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
     }
 }
