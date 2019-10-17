@@ -32,18 +32,16 @@ namespace OracleDbTest.orm
         /// 查询对应的数据，返回单条记录（列名 => 数据）
         /// </summary>
         /// <param name="sql">sql语句</param>
-        /// <param name="type">数据类型</param>
         /// <param name="parms">参数列表，key：具名参数，value：参数值</param>
         /// <returns></returns>
-        Dictionary<string, object> QueryMap(string sql, Type type, Dictionary<string, object> parms);
+        Dictionary<string, object> QueryMap(string sql, Dictionary<string, object> parms);
         /// <summary>
         /// 查询对应的数据，返回多条记录（列名 => 数据）
         /// </summary>
         /// <param name="sql">sql语句</param>
-        /// <param name="type">数据类型</param>
         /// <param name="parms">参数列表，key：具名参数，value：参数值</param>
         /// <returns></returns>
-        List<Dictionary<string, object>> QueryMapList(string sql, Type type, Dictionary<string, object> parms);
+        List<Dictionary<string, object>> QueryMapList(string sql, Dictionary<string, object> parms);
         /// <summary>
         /// 查询单列数据，返回一条单列数据（列名 => 数据）
         /// </summary>

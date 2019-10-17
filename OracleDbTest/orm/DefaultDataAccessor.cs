@@ -52,9 +52,9 @@ namespace OracleDbTest.orm
             return result;
         }
 
-        public Dictionary<string, object> QueryMap(string sql, Type type, Dictionary<string, object> parms)
+        public Dictionary<string, object> QueryMap(string sql, Dictionary<string, object> parms)
         {
-            var result = QueryMapList(sql, type, parms);
+            var result = QueryMapList(sql, parms);
             if (result.Any())
             {
                 return result[0];
@@ -63,7 +63,7 @@ namespace OracleDbTest.orm
             return new Dictionary<string, object>();
         }
 
-        public List<Dictionary<string, object>> QueryMapList(string sql, Type type, Dictionary<string, object> parms)
+        public List<Dictionary<string, object>> QueryMapList(string sql, Dictionary<string, object> parms)
         {
             PrintSql(sql);
             OracleConnection conn = null;

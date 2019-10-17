@@ -43,10 +43,10 @@ namespace OracleDbTest.orm
         }
 
         // 获取对象指定名称的属性值
-        public static object GetObjectPropertyValue(object obj, string propertyname)
+        public static object GetObjectPropertyValue(object obj, string propertyName)
         {
             var type = obj.GetType();
-            return type.GetProperty(propertyname)?.GetValue(obj);
+            return type.GetProperty(propertyName)?.GetValue(obj);
         }
 
         // 设置对象指定名称的属性值
