@@ -17,12 +17,12 @@ namespace OracleDbTest.orm
      * 对于条件语句，使用a=?或者a=? AND b=?,后续会使用参数处理类将?替换为:a_
      * 将列名对应的参数与条件参数区别对待的原因是防止出现重名参数占位的情况
      */
-    public class SqlHelper
+    public static class SqlHelper
     {
         // 生成选择语句
         public static string GenSelectSql(Type type)
         {
-            return GenSelectSql(type, null);
+            return GenSelectSql(type, string.Empty);
         }
 
         // 生成选择语句

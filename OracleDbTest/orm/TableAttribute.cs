@@ -10,17 +10,11 @@ namespace OracleDbTest.orm
 {
     public class TableAttribute:Attribute
     {
-        private string _tableName;
-
         public TableAttribute(string tableName)
         {
-            this._tableName = tableName;
+            this.TableName = tableName;
         }
 
-        public string TableName
-        {
-            set { _tableName = value; }
-            get { return _tableName; }
-        }
+        public string TableName { get; }
     }
 }

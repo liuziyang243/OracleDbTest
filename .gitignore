@@ -243,3 +243,14 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/OracleDbTest.sln
+.idea/.idea.OracleDbTest/.idea/contentModel.xml
+.idea/.idea.OracleDbTest/.idea/dataSources.xml
+.idea/.idea.OracleDbTest/.idea/dataSources/d39a2c26-5279-47b8-aa4b-e33dc2f1b1aa.xml
+.idea/.idea.OracleDbTest/.idea/indexLayout.xml
+.idea/.idea.OracleDbTest/.idea/modules.xml
+.idea/.idea.OracleDbTest/.idea/vcs.xml
+.idea/.idea.OracleDbTest/.idea/workspace.xml
+.idea/.idea.OracleDbTest/riderModule.iml
+/OracleDbTest/OracleDbTest.csproj
+.idea/.idea.OracleDbTest/.idea/dataSources.local.xml
