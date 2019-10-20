@@ -72,9 +72,8 @@ namespace OracleDbTest.orm
         //获取数据库列名和属性名对应关系map，key-列名，value-属性名
         public static Dictionary<string, string> GetColumnAttributeMap(Type type)
         {
-            Dictionary<string, string> temp;
             Dictionary<string, string> result = new Dictionary<string, string>();
-            temp = EntityMap.ContainsKey(type) ? EntityMap[type] : GetTargetAttributeColumnMap(type);
+            var temp = EntityMap.ContainsKey(type) ? EntityMap[type] : GetTargetAttributeColumnMap(type);
             // 翻转key-value
             foreach (var entry in temp)
             {
@@ -90,7 +89,8 @@ namespace OracleDbTest.orm
             string tableName;
             // 判断是否有注解
             object[] objTableAttribute = type.GetCustomAttributes(typeof(TableAttribute), false);
-            if (objTableAttribute != null && objTableAttribute.Length != 0)
+            // 如果有注解，则使用注解中的名称作为列名
+            if (objTableAttribute.Length != 0)
             {
                 tableName = ((TableAttribute)objTableAttribute[0]).TableName;
             }
@@ -115,7 +115,8 @@ namespace OracleDbTest.orm
                 infoMap.Add(info.Name, info);
                 // 判断属性上是否有注解，如果有注解，则直接使用注解中的Column作为列名
                 object[] objDataFieldAttribute = info.GetCustomAttributes(typeof(ColumnAttribute), false);
-                if (objDataFieldAttribute != null && objDataFieldAttribute.Length != 0)
+                // 使用注解名称作为列名
+                if (objDataFieldAttribute.Length != 0)
                 {
                     result.Add(info.Name, ((ColumnAttribute)objDataFieldAttribute[0]).ColumnName);
                 }
